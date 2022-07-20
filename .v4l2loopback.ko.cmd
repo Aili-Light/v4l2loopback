@@ -1,0 +1,1 @@
+cmd_/home/ailiteam/jimmy.xie/v4l2loopback/v4l2loopback.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/ailiteam/jimmy.xie/v4l2loopback/v4l2loopback.ko /home/ailiteam/jimmy.xie/v4l2loopback/v4l2loopback.o /home/ailiteam/jimmy.xie/v4l2loopback/v4l2loopback.mod.o;  true
