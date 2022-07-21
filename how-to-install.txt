@@ -1,0 +1,5 @@
+1. make & sudo make install
+2. sudo echo "v4l2loopback" | tee /etc/modules-load.d/modules.conf
+3. sudo echo "options v4l2loopback video_nr=0 card_label=\"gmsl camera\" exclusive_caps=1" | tee /etc/modprobe.d/v4l2loopback.conf
+4. sudo update-initramfs -c -k $(uname -r)
+5. reboot
