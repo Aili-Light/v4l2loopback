@@ -208,11 +208,11 @@ typedef unsigned __poll_t;
 #endif
 
 /* module parameters */
-static int debug = 0;
+static int debug = 1;
 module_param(debug, int, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(debug, "debugging level (higher values == more verbose)");
 
-#define V4L2LOOPBACK_DEFAULT_MAX_BUFFERS 2
+#define V4L2LOOPBACK_DEFAULT_MAX_BUFFERS 4
 static int max_buffers = V4L2LOOPBACK_DEFAULT_MAX_BUFFERS;
 module_param(max_buffers, int, S_IRUGO);
 MODULE_PARM_DESC(max_buffers,
@@ -235,7 +235,7 @@ MODULE_PARM_DESC(
 	"how many users can open the loopback device [DEFAULT: " STRINGIFY2(
 		V4L2LOOPBACK_DEFAULT_MAX_OPENERS) "]");
 
-static int devices = -1;
+static int devices = 0;
 module_param(devices, int, 0);
 MODULE_PARM_DESC(devices, "how many devices should be created");
 
@@ -1632,6 +1632,13 @@ static int vidioc_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
 		else
 			b->buffer.timestamp = buf->timestamp;
 		b->buffer.bytesused = buf->bytesused;
+
+		// Add sequence and reserved bytes
+		b->buffer.sequence = buf->sequence;
+		b->buffer.reserved = buf->reserved;
+		b->buffer.reserved2 = buf->reserved2;
+		dprintkrw("sequence = %d\n", b->buffer.sequence);
+
 		set_done(b);
 		buffer_written(dev, b);
 
